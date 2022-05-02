@@ -1,7 +1,6 @@
-from urllib import response
 import requests
 
-BASE ="http://127.0.0.1:5000/"
+BASE = "http://127.0.0.1:5000/"
 
-response = requests.get(BASE + "video/2")
+response = requests.patch(BASE + "video/2", {})
 print(response.json())

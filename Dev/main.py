@@ -2,8 +2,8 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)#
-api = Api(app)#wrap our app in an API aka we say it is a RESTfull API
+app = Flask(__name__)
+api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
@@ -14,7 +14,7 @@ class VideoModel(db.Model):
 	likes = db.Column(db.Integer, nullable=False)
 
 	def __repr__(self):
-		return f"Video(name = {self.name}, views = {self.views}, likes = {self.likes})"
+		return f"Video(name = {name}, views = {views}, likes = {likes})"
 
 video_put_args = reqparse.RequestParser()
 video_put_args.add_argument("name", type=str, help="Name of the video is required", required=True)
@@ -78,8 +78,7 @@ class Video(Resource):
 		return '', 204
 
 
-api.add_resource(Video, "/video/<int:user_id>")#where this resource is accessible/where do we send the requests
+api.add_resource(Video, "/video/<int:video_id>")
 
-#Start our server and Flask app
 if __name__ == "__main__":
-	app.run(debug=True)#debug mode
+	app.run(debug=True)
