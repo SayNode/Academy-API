@@ -14,7 +14,7 @@ class VideoModel(db.Model):
 	likes = db.Column(db.Integer, nullable=False)
 
 	def __repr__(self):
-		return f"Video(name = {name}, views = {views}, likes = {likes})"
+		return f"Video(name = {self.name}, views = {self.views}, likes = {self.likes})"
 
 video_put_args = reqparse.RequestParser()
 video_put_args.add_argument("name", type=str, help="Name of the video is required", required=True)
@@ -78,7 +78,7 @@ class Video(Resource):
 		return '', 204
 
 
-api.add_resource(Video, "/video/<int:video_id>")#where this resource is accessible/where do we send the requests
+api.add_resource(Video, "/video/<int:user_id>")#where this resource is accessible/where do we send the requests
 
 #Start our server and Flask app
 if __name__ == "__main__":
