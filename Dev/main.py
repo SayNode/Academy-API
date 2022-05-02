@@ -14,13 +14,15 @@ class VideoModel(db.Model):
 	likes = db.Column(db.Integer, nullable=False)
 
 	def __repr__(self):
-		return f"Video(name = {name}, views = {views}, likes = {likes})"
+		return f"Video(name = {self.name}, views = {self.views}, likes = {self.likes})"
 
+#Validate the request: it has to have the following args when calling a PUT request
 video_put_args = reqparse.RequestParser()
 video_put_args.add_argument("name", type=str, help="Name of the video is required", required=True)
 video_put_args.add_argument("views", type=int, help="Views of the video", required=True)
 video_put_args.add_argument("likes", type=int, help="Likes on the video", required=True)
 
+#Validate the request: it should have at least one of the following args when calling a UPDATE request
 video_update_args = reqparse.RequestParser()
 video_update_args.add_argument("name", type=str, help="Name of the video is required")
 video_update_args.add_argument("views", type=int, help="Views of the video")
@@ -44,13 +46,18 @@ class Video(Resource):
 	@marshal_with(resource_fields)
 	def put(self, video_id):
 		args = video_put_args.parse_args()
-		result = VideoModel.query.filter_by(id=video_id).first()
-		if result:
+
+		result = VideoModel.query.filter_by(id=video_id).first()#Makes a GET request with the vid_id we want to POST
+		if result:#If there is a result, then the video was already posted
 			abort(409, message="Video id taken...")
 
+		#Otherwise, we can go ahead and post the video by reading the request args
 		video = VideoModel(id=video_id, name=args['name'], views=args['views'], likes=args['likes'])
+		#Add the video to the database
 		db.session.add(video)
 		db.session.commit()
+
+		#Return the POST info and the correct operation code
 		return video, 201
 
 	@marshal_with(resource_fields)
