@@ -4,18 +4,22 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 api = Api(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+#define the location of our database. database.db is the name of the db
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./database.db'
 db = SQLAlchemy(app)
 
-#Define the schema of the database entries
+#Define the schema/model of the database entries
 class VideoModel(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(100), nullable=False)
+	id = db.Column(db.Integer, primary_key=True)#primary_key means that this parameter is unique for each entry (HAVE TO CHANGE THIS)
+	name = db.Column(db.String(100), nullable=False)#nullable=False: means that this parameter has always to be filled in an entry
 	views = db.Column(db.Integer, nullable=False)
 	likes = db.Column(db.Integer, nullable=False)
 
 	def __repr__(self):
 		return f"Video(name = {self.name}, views = {self.views}, likes = {self.likes})"
+
+#Create the database
+db.create_all()
 
 #Validate the request: it has to have the following args when calling a PUT request
 video_put_args = reqparse.RequestParser()
@@ -29,6 +33,7 @@ video_update_args.add_argument("name", type=str, help="Name of the video is requ
 video_update_args.add_argument("views", type=int, help="Views of the video")
 video_update_args.add_argument("likes", type=int, help="Likes on the video")
 
+#Defines how the object will be returned. Mimics the Model/Schema of the database
 resource_fields = {
 	'id': fields.Integer,
 	'name': fields.String,
@@ -37,7 +42,7 @@ resource_fields = {
 }
 
 class Video(Resource):
-	@marshal_with(resource_fields)
+	@marshal_with(resource_fields)#specifies that the "result" value will be displayed/serialized in the way described in resource_fields 
 	def get(self, video_id):
 		result = VideoModel.query.filter_by(id=video_id).first()
 		if not result:
