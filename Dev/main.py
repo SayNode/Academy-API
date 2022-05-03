@@ -25,7 +25,7 @@ db.create_all()
 #Validate the request: it has to have the following args when calling a PUT request
 form_put_args = reqparse.RequestParser()
 form_put_args.add_argument("User_ID", type=str, help="User_ID of the form is required", required=True)
-form_put_args.add_argument("Quiz_ID", type=int, help="Quiz_ID of the form", required=True)
+form_put_args.add_argument("Quiz_ID", type=str, help="Quiz_ID of the form", required=True)
 
 #Validate the request: it should have at least one of the following args when calling a UPDATE request
 form_update_args = reqparse.RequestParser()
@@ -44,7 +44,7 @@ resource_fields = {
 class Form(Resource):
 	@marshal_with(resource_fields)#specifies that the "result" value will be displayed/serialized in the way described in resource_fields 
 	def get(self, form_id):
-		result = FormModel.query.filter_by(id=form_id).first()
+		result = FormModel.query.filter_by(UI=form_id).first()
 		if not result:
 			abort(404, message="Could not find form with that id")
 		return result
@@ -53,7 +53,7 @@ class Form(Resource):
 	def put(self, form_id):
 		args = form_put_args.parse_args()
 
-		result = FormModel.query.filter_by(id=form_id).first()#Makes a GET request with the vid_id we want to POST
+		result = FormModel.query.filter_by(UI=form_id).first()#Makes a GET request with the vid_id we want to POST
 															    #we have to see if we want just the first() or .all()
 		if result:#If there is a result, then the form was already posted
 			abort(409, message="Form already exists")
@@ -61,7 +61,7 @@ class Form(Resource):
 		#Make the formID aka UI
 		form_id = args['User_ID'] + args['Quiz_ID']
 		#Otherwise, we can go ahead and post the form by reading the request args
-		form = FormModel(id=form_id, User_ID=args['User_ID'], Quiz_ID=args['Quiz_ID'], Reward=0, Completed=False)
+		form = FormModel(UI=form_id, User_ID=args['User_ID'], Quiz_ID=args['Quiz_ID'], Reward=0, Completed=False)
 		#Add the form to the database
 		db.session.add(form)#adds object to the DB session (temporary)
 		db.session.commit()#commits the changes permanetly to the DB
@@ -72,7 +72,7 @@ class Form(Resource):
 	@marshal_with(resource_fields)
 	def patch(self, form_id):
 		args = form_update_args.parse_args()
-		result = FormModel.query.filter_by(id=form_id).first()
+		result = FormModel.query.filter_by(UI=form_id).first()
 		if not result:
 			abort(404, message="form doesn't exist, cannot update")
 
@@ -88,14 +88,14 @@ class Form(Resource):
 	@marshal_with(resource_fields)
 	def delete(self, form_id):
 		args = form_update_args.parse_args()
-		result = FormModel.query.filter_by(id=form_id).first()
+		result = FormModel.query.filter_by(UI=form_id).first()
 		if not result:
 			abort(404, message="form doesn't exist, cannot update")
-		del forms[form_id]
+		#del forms[form_id]
 		return '', 204
 
 
-api.add_resource(Form, "/form/<str:form_id>")
+api.add_resource(Form, "/form/<string:form_id>")
 
 if __name__ == "__main__":
 	app.run(debug=True)
