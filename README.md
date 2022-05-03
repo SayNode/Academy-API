@@ -9,6 +9,7 @@ This DB has 4 fields:
     2) Questionnaire ID
     3) Status of the questionnaire (*clicked on*, *answered*, *reward collected*)
     4) Amount of DHN tokens rewarded (this depends on the **RewardValue** at the time of *reward collected* status update)
+    5) UI (unique identifier) = UserID+QuizID (for easy quering)
 - **Brownie backend**: to trigger the transaction from the foundation to the user
 - **A Vechain Wallet Reserve**: to fund the transactions. This may require a **DHN/VET Pool** for automated funding
 - **Flask API**: to connect the Dohrnii server (all the previously described functionalities) to the user
