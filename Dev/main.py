@@ -33,7 +33,7 @@ video_update_args.add_argument("name", type=str, help="Name of the video is requ
 video_update_args.add_argument("views", type=int, help="Views of the video")
 video_update_args.add_argument("likes", type=int, help="Likes on the video")
 
-#Defines how the object will be returned. Mimics the Model/Schema of the database
+#Defines how the object will be returned/serialized (JSON in this case). Mimics the Model/Schema of the database
 resource_fields = {
 	'id': fields.Integer,
 	'name': fields.String,
@@ -54,14 +54,15 @@ class Video(Resource):
 		args = video_put_args.parse_args()
 
 		result = VideoModel.query.filter_by(id=video_id).first()#Makes a GET request with the vid_id we want to POST
+															    #we have to see if we want just the first() or .all()
 		if result:#If there is a result, then the video was already posted
 			abort(409, message="Video id taken...")
 
 		#Otherwise, we can go ahead and post the video by reading the request args
 		video = VideoModel(id=video_id, name=args['name'], views=args['views'], likes=args['likes'])
 		#Add the video to the database
-		db.session.add(video)
-		db.session.commit()
+		db.session.add(video)#adds object to the DB session (temporary)
+		db.session.commit()#commits the changes permanetly to the DB
 
 		#Return the POST info and the correct operation code
 		return video, 201
@@ -84,9 +85,12 @@ class Video(Resource):
 
 		return result
 
-
+	@marshal_with(resource_fields)
 	def delete(self, video_id):
-		abort_if_video_id_doesnt_exist(video_id)
+		args = video_update_args.parse_args()
+		result = VideoModel.query.filter_by(id=video_id).first()
+		if not result:
+			abort(404, message="Video doesn't exist, cannot update")
 		del videos[video_id]
 		return '', 204
 
