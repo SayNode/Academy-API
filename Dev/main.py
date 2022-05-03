@@ -2,6 +2,9 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 
+import os
+os.remove("./Dev/database.db")#remove existing database. Only usefull in debugging, has to be removed for production version
+
 app = Flask(__name__)
 api = Api(app)
 #define the location of our database. database.db is the User_ID of the db
