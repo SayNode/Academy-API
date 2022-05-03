@@ -58,8 +58,10 @@ class Form(Resource):
 		if result:#If there is a result, then the form was already posted
 			abort(409, message="Form already exists")
 
+		#Make the formID aka UI
+		form_id = args['User_ID'] + args['Quiz_ID']
 		#Otherwise, we can go ahead and post the form by reading the request args
-		form = FormModel(id=form_id, User_ID=args['User_ID'], Quiz_ID=args['Quiz_ID'], Reward=args['Reward'])
+		form = FormModel(id=form_id, User_ID=args['User_ID'], Quiz_ID=args['Quiz_ID'], Reward=0, Completed=False)
 		#Add the form to the database
 		db.session.add(form)#adds object to the DB session (temporary)
 		db.session.commit()#commits the changes permanetly to the DB
@@ -93,7 +95,7 @@ class Form(Resource):
 		return '', 204
 
 
-api.add_resource(Form, "/form/<int:form_id>")
+api.add_resource(Form, "/form/<str:form_id>")
 
 if __name__ == "__main__":
 	app.run(debug=True)

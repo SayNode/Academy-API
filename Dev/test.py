@@ -2,16 +2,16 @@ import requests
 
 BASE = "http://127.0.0.1:5000/"
 
-data = [{"likes": 1, "name": "Yo1", "views":1},
-        {"likes": 2, "name": "Yo2", "views":2},
-        {"likes": 3, "name": "Yo3", "views":3},
-        {"likes": 4, "name": "Yo4", "views":4},]
+data = [{"User_ID": 1, "Quiz_ID": "Yo1"},
+        {"User_ID": 2, "Quiz_ID": "Yo2"},
+        {"User_ID": 3, "Quiz_ID": "Yo3"},
+        {"User_ID": 4, "Quiz_ID": "Yo4"}]
 
 for i in range(len(data)):
-    response = requests.put(BASE + "video/" + str(i), data[i])
+    response = requests.put(BASE + "form/" + str(i), data[i])
     print(response.json())
 
 input()
 
-response = requests.get(BASE + "video/2")
+response = requests.get(BASE + "form/2")
 print(response.json())
