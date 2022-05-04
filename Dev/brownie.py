@@ -26,14 +26,12 @@ def deploy():
     dohrnii_token_contrat = DHN.at("0x3194cBDC3dbcd3E11a07892e7bA5c3394048Cc87")
 
 
-    return dohrnii_token_contrat
+    return SayNode_account, dohrnii_token_contrat
 
 #Testing createDS() from DataSetFactory.sol
-def createDS(dec_fit, DHN, DSF, ds_creator_account, DS_name, DS_IPFS_link, ds_category, ds_desc, ds_sub_price, update_freq, penalty):
-    print("------------------Creating a DS------------------")
-    DHN.approve(DSF,30*dec_fit, {"from": ds_creator_account}) #creator approves that the DSF contract 
+def transferRewards(dec_fit, DHN, SayNode_account, wallet_id, reward):
+    print("------------------Transfer------------------")
+    DHN.transfer(wallet_id, reward*dec_fit, {"from": SayNode_account}) #creator approves that the DSF contract 
                                                        #can send tokens to the DS contract (amount = stakeAmount)
 
-    DSF.createDS(DS_name, DS_IPFS_link, ds_category, ds_desc, ds_sub_price, update_freq, penalty, 
-                {"from": ds_creator_account}) #DS created
 
