@@ -1,10 +1,8 @@
 from brownie import accounts, network, config, chain, Contract
 import time
 import os
-from dotenv import load_dotenv
+from decouple import config
 
-load_dotenv()
-#network.connect('rinkeby')
 
 def deploy():
     #A)For local ganache
@@ -39,9 +37,10 @@ def transferRewards(dec_fit, DHN, SayNode_account, wallet_id, reward):
                                                        #can send tokens to the DS contract (amount = stakeAmount)
 
 def main():
+    WALLET_PRIVATE_KEY = config('PRIVATE_KEY')
     print(network.is_connected())
     print(network.show_active())
-    wallet_id =accounts[0]
+    wallet_id =accounts.add(WALLET_PRIVATE_KEY)
     print(wallet_id)
 
 
