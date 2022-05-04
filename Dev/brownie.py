@@ -1,6 +1,10 @@
-from brownie import accounts, config, chain, Contract, DHN 
+from brownie import accounts, network, config, chain, Contract
 import time
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+#network.connect('rinkeby')
 
 def deploy():
     #A)For local ganache
@@ -33,5 +37,11 @@ def transferRewards(dec_fit, DHN, SayNode_account, wallet_id, reward):
     print("------------------Transfer------------------")
     DHN.transfer(wallet_id, reward*dec_fit, {"from": SayNode_account}) #creator approves that the DSF contract 
                                                        #can send tokens to the DS contract (amount = stakeAmount)
+
+def main():
+    print(network.is_connected())
+    print(network.show_active())
+    wallet_id =accounts[0]
+    print(wallet_id)
 
 

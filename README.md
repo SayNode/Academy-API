@@ -34,3 +34,8 @@ or
 > brownie bake upgrades-mix
 
 > cd upgrades
+
+## Add new network
+> brownie networks add live *NetworkName* host=*hostlink* chainid=*chainID*
+
+>brownie run *FileName* --network *NetworkName*
