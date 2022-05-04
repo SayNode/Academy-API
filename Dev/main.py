@@ -3,7 +3,8 @@ from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 
 import os
-os.remove("./Dev/database.db")#remove existing database. Only usefull in debugging, has to be removed for production version
+if os.path.exists("./Dev/database.db"):
+	os.remove("./Dev/database.db")#remove existing database. Only usefull in debugging, has to be removed for production version
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,7 +14,7 @@ db = SQLAlchemy(app)
 
 #Define the schema/model of the database entries
 class FormModel(db.Model):
-	UI = db.Column(db.String(100), primary_key=True)#primary_key means that this parameter is unique for each entry (HAVE TO CHANGE THIS)
+	UI = db.Column(db.String(100), primary_key=True)#primary_key means that this parameter is unique for each entry
 	User_ID = db.Column(db.String(100), nullable=False)#nullable=False: means that this parameter has always to be filled in an entry
 	Quiz_ID = db.Column(db.String(100), nullable=False)
 	Reward = db.Column(db.Integer, nullable=False)
