@@ -16,15 +16,14 @@ def deploy():
         #1)Create a .env file
         #2)Add "export PRIVATE_KEY = <wallet private key>" to it
         #3)Use the code bellow:
-        account = accounts.add(os.getenv("PRIVATE_KEY"))
+    SayNode_account = accounts.add(os.getenv("PRIVATE_KEY"))
     #D)Using "wallets" section in brownie-config.yaml:
         #1)Define the wallets in the brownie-config.yaml
         #2)Do the code bellow:
         #account = accounts.add(config["wallets"]["from_key"])
     
     #Deployment
-    #Call existing contract:dohrnii_token_contrat = DHN.at("0x3194cBDC3dbcd3E11a07892e7bA5c3394048Cc87")(dohrnii_account,{"from": dohrnii_account})
-    dohrnii_token_contrat = DHN.deploy(dohrnii_account,{"from": dohrnii_account})
+    dohrnii_token_contrat = DHN.at("0x3194cBDC3dbcd3E11a07892e7bA5c3394048Cc87")
 
 
     return dohrnii_token_contrat
