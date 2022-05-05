@@ -2,6 +2,7 @@ from brownie import accounts, network, config, chain, Contract
 import time
 import os
 from decouple import config
+import requests
 
 
 def deploy():

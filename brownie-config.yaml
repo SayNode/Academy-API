@@ -62,6 +62,7 @@ hypothesis:
         shrink: true
 
 autofetch_sources: false
-dependencies: null
+dependencies:
+    - OpenZeppelin/openzeppelin-contracts@4.4.2
 dev_deployment_artifacts: false
 dotenv: .env

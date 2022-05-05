@@ -38,12 +38,18 @@ or
 ## Use rinkeby
 - Simply define WEB3_INFURA_PROJECT_ID on the .env file and run:
     > brownie run ./Dev/brownie.py --network rinkeby
-    
+
 - If Brownie does not regognize the WEB3_INFURA_PROJECT_ID variable, than there are two options:
     1) Create a new network equal to rinkeby, manually:
         > brownie networks add live *NetworkName* host=*hostlink* chainid=*chainID*
 
-        >brownie run *FileName* --network *NetworkName*
+        > brownie run *FileName* --network *NetworkName*
 
     2) Add the WEB3_INFURA_PROJECT_ID to your user enviornment variables:
       https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html
+
+## Use vechain
+- We need to add the vechain network manually, as it is not pre-programmed into the brownie networks
+    > brownie networks add live Vechain host=*LocalNodeLink* chainid=*random*
+
+    > brownie run *FileName* --network Vechain
