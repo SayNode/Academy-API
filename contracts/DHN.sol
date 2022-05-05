@@ -5,6 +5,8 @@ import "OpenZeppelin/openzeppelin-contracts@4.4.2/contracts/token/ERC20/ERC20.so
 
 contract MyToken is ERC20 {
     constructor() ERC20("MyTokenDHN", "DHN") {
-        _mint(msg.sender, 1000 * 10 ** decimals());
+    }
+    function mint(address _receiver) public{
+        _mint(_receiver, 1000 * 10 ** decimals());
     }
 }
