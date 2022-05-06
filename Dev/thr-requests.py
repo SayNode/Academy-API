@@ -1,12 +1,10 @@
 from thor_requests.connect import Connect
 from thor_requests.wallet import Wallet
 from thor_requests.contract import Contract
-from thor_devkit import cry
-from thor_devkit.cry import hdnode
-import os
 from decouple import config
 import time
 
+#Connect to Veblocks and import the DHN contract
 def init():
     print("------------------Connect to Veblocks------------------\n")
     connector = Connect("https://testnet.veblocks.net")
@@ -15,6 +13,7 @@ def init():
     DHN_contract_address = '0x299fBe0c9f605d7897694413c774c60892DB631f'
     return connector, _contract, DHN_contract_address
 
+#Import wallets from mnemonic (this should be only one, but for know we need 2 for testing)
 def wallet_import_1(connector):
     MNEMONIC_1 = config('MNEMONIC_1')
     testwallet1 = Wallet.fromMnemonic(MNEMONIC_1.split(', '))
@@ -33,7 +32,8 @@ def wallet_import_2(connector):
     print("Wallet VTHO balance: " + str(connector.get_vtho_balance(testWallet2_address)))
     return testwallet2, testWallet2_address
 
-
+#Get wallet balances, we use "call" in order to not waste any gas (once again this should be separated, but it will be done when ready 
+# to deploy)
 def wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, testWallet2_address):
     print("Wallet1:")
     balance_one = connector.call(
@@ -57,7 +57,6 @@ def wallet_balance(connector,_contract, DHN_contract_address, testWallet1_addres
 
 #Transfer DHN tokens
 def transfer_DHN(connector, DHN_contract_address, testwallet1, receiver_address, amount):
-    print("------------------Transfer DHN Tokens------------------\n")
     connector.transfer_token(
         testwallet1, 
         to=receiver_address,
@@ -87,3 +86,4 @@ def main():
 
     print("------------------DHN Balances After Transfer------------------\n")
     wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, testWallet2_address)
+main()
