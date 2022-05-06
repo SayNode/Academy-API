@@ -7,88 +7,83 @@ import os
 from decouple import config
 import time
 
+def init():
+    print("------------------Connect to Veblocks------------------\n")
+    connector = Connect("https://testnet.veblocks.net")
+    print("------------------IMPORT DHN CONTRACT------------------\n")
+    _contract = Contract.fromFile("./build/contracts/MyToken.json")
+    DHN_contract_address = '0x299fBe0c9f605d7897694413c774c60892DB631f'
+    return connector, _contract, DHN_contract_address
 
-connector = Connect("https://testnet.veblocks.net")
+def wallet_import_1(connector):
+    MNEMONIC_1 = config('MNEMONIC_1')
+    testwallet1 = Wallet.fromMnemonic(MNEMONIC_1.split(', '))
+    testWallet1_address= testwallet1.getAddress()
+    print("Wallet address: " + testWallet1_address)
+    print("Wallet VET balance: " + str(connector.get_vet_balance(testWallet1_address)))
+    print("Wallet VTHO balance: " + str(connector.get_vtho_balance(testWallet1_address)))
+    return testwallet1, testWallet1_address
 
-print("------------------WALLET 1------------------\n")
-MNEMONIC_1 = config('MNEMONIC_1')
-testwallet1 = Wallet.fromMnemonic(MNEMONIC_1.split(', '))
-testWallet1_address= testwallet1.getAddress()
-print("Wallet address: " + testWallet1_address)
-print("Wallet VET balance: " + str(connector.get_vet_balance(testWallet1_address)))
-print("Wallet VTHO balance: " + str(connector.get_vtho_balance(testWallet1_address)))
-
-print("------------------WALLET 2------------------\n")
-MNEMONIC_2 = config('MNEMONIC_2')
-testwallet2 = Wallet.fromMnemonic(MNEMONIC_2.split(', '))
-testWallet2_address= testwallet2.getAddress()
-print("Wallet address: " + testWallet2_address)
-print("Wallet VET balance: " + str(connector.get_vet_balance(testWallet2_address)))
-print("Wallet VTHO balance: " + str(connector.get_vtho_balance(testWallet2_address)))
-
-print("------------------DEPLOY DHN CONTRACT------------------\n")
-_contract = Contract.fromFile("./build/contracts/MyToken.json")
-DHN_contract_address = '0x299fBe0c9f605d7897694413c774c60892DB631f'
-
-print("------------------Mint tokens to Wallet One------------------\n")
-""" get_tokens = connector.transact(
-    testwallet1, # fill in your caller address or all zero address
-    _contract,
-    "mint",
-    [testWallet1_address],
-    to=DHN_contract_address,
-    value=0
-)
-print(get_tokens) """
+def wallet_import_2(connector):
+    MNEMONIC_2 = config('MNEMONIC_2')
+    testwallet2 = Wallet.fromMnemonic(MNEMONIC_2.split(', '))
+    testWallet2_address= testwallet2.getAddress()
+    print("Wallet address: " + testWallet2_address)
+    print("Wallet VET balance: " + str(connector.get_vet_balance(testWallet2_address)))
+    print("Wallet VTHO balance: " + str(connector.get_vtho_balance(testWallet2_address)))
+    return testwallet2, testWallet2_address
 
 
-print("------------------DHN Balances Before Transfer------------------\n")
-print("Wallet1:")
-balance_one = connector.call(
-    caller=testWallet1_address, # fill in your caller address or all zero address
-    contract=_contract,
-    func_name="balanceOf",
-    func_params=[testWallet1_address],
-    to=DHN_contract_address,
-)
-print(balance_one["decoded"]["0"])
-print("Wallet2:")
-balance_two = connector.call(
-    caller=testWallet2_address, # fill in your caller address or all zero address
-    contract=_contract,
-    func_name="balanceOf",
-    func_params=[testWallet2_address],
-    to=DHN_contract_address,
-)
-print(balance_two["decoded"]["0"]) 
+def wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, testWallet2_address):
+    print("Wallet1:")
+    balance_one = connector.call(
+        caller=testWallet1_address, # fill in your caller address or all zero address
+        contract=_contract,
+        func_name="balanceOf",
+        func_params=[testWallet1_address],
+        to=DHN_contract_address,
+    )
+    print(balance_one["decoded"]["0"])
 
-print("------------------Transfer DHN Tokens------------------\n")
-connector.transfer_token(
-    testwallet1, 
-    to=testWallet2_address,
-    token_contract_addr= DHN_contract_address, 
-    amount_in_wei=1
-) 
+    print("Wallet2:")
+    balance_two = connector.call(
+        caller=testWallet2_address, # fill in your caller address or all zero address
+        contract=_contract,
+        func_name="balanceOf",
+        func_params=[testWallet2_address],
+        to=DHN_contract_address,
+    )
+    print(balance_two["decoded"]["0"]) 
 
-#Sleep for 10 seconds to allow for the tx to be processed
-time.sleep(10)
+#Transfer DHN tokens
+def transfer_DHN(connector, DHN_contract_address, testwallet1, receiver_address, amount):
+    print("------------------Transfer DHN Tokens------------------\n")
+    connector.transfer_token(
+        testwallet1, 
+        to=receiver_address,
+        token_contract_addr= DHN_contract_address, 
+        amount_in_wei=amount
+    ) 
 
-print("------------------DHN Balances After Transfer------------------\n")
-print("Wallet1:")
-balance_one = connector.call(
-    caller=testWallet1_address, # fill in your caller address or all zero address
-    contract=_contract,
-    func_name="balanceOf",
-    func_params=[testWallet1_address],
-    to=DHN_contract_address,
-)
-print(balance_one["decoded"]["0"])
-print("Wallet2:")
-balance_two = connector.call(
-    caller=testWallet2_address, # fill in your caller address or all zero address
-    contract=_contract,
-    func_name="balanceOf",
-    func_params=[testWallet2_address],
-    to=DHN_contract_address,
-)
-print(balance_two["decoded"]["0"]) 
+
+def main():
+
+    print("------------------Connect to Veblocks------------------")
+    print("------------------IMPORT DHN CONTRACT------------------\n")
+    (connector, _contract, DHN_contract_address)=init()
+    print("------------------WALLET 1------------------\n")
+    (testwallet1, testWallet1_address)=wallet_import_1(connector)
+    print("------------------WALLET 1------------------\n")
+    (testwallet2, testWallet2_address)=wallet_import_2(connector)
+
+    print("------------------DHN Balances Before Transfer------------------\n")
+    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, testWallet2_address)
+
+    print("------------------Transfer DHN Tokens------------------\n")
+    transfer_DHN(connector, DHN_contract_address, testwallet1, testWallet2_address, 1)
+
+    #Sleep for 10 seconds to allow for the tx to be processed
+    time.sleep(10)
+
+    print("------------------DHN Balances After Transfer------------------\n")
+    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, testWallet2_address)
