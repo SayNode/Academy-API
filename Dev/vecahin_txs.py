@@ -65,24 +65,22 @@ def transfer_DHN(connector, DHN_contract_address, testwallet1, receiver_address,
     ) 
 
 
-def main():
-
+def main(wallet_id,reward):
+    reward = int(reward)
     print("------------------Connect to Veblocks------------------")
     print("------------------IMPORT DHN CONTRACT------------------\n")
     (connector, _contract, DHN_contract_address)=init()
     print("------------------WALLET 1------------------\n")
     (testwallet1, testWallet1_address)=wallet_import_1(connector)
-    print("------------------WALLET 1------------------\n")
-    (testwallet2, testWallet2_address)=wallet_import_2(connector)
 
     print("------------------DHN Balances Before Transfer------------------\n")
-    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, testWallet2_address)
+    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id)
 
     print("------------------Transfer DHN Tokens------------------\n")
-    transfer_DHN(connector, DHN_contract_address, testwallet1, testWallet2_address, 1)
+    transfer_DHN(connector, DHN_contract_address, testwallet1, wallet_id, reward)
 
     #Sleep for 10 seconds to allow for the tx to be processed
     time.sleep(10)
 
     print("------------------DHN Balances After Transfer------------------\n")
-    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, testWallet2_address)
+    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id)
