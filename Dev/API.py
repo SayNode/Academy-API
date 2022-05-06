@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+from thor_requests import init, wallet_import_1, wallet_import_2, wallet_balance, transfer_DHN, main
 
 app = Flask(__name__)
 api = Api(app)
