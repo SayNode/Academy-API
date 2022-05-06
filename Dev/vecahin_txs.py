@@ -86,4 +86,3 @@ def main():
 
     print("------------------DHN Balances After Transfer------------------\n")
     wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, testWallet2_address)
-main()

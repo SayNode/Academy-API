@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-from thor_requests import init, wallet_import_1, wallet_import_2, wallet_balance, transfer_DHN, main
+import vecahin_txs 
 
 app = Flask(__name__)
 api = Api(app)
@@ -18,6 +18,7 @@ form_update_args.add_argument("Completed", type=bool, help="Quiz Completed")
 class Form(Resource):
 	
 	def get(self, wallet_id, reward):
+		vecahin_txs.main()
 		return {"wallet_id": wallet_id, "reward": reward}
 
 
