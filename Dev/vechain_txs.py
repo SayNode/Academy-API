@@ -8,6 +8,8 @@ import time
 def init():
     print("------------------Connect to Veblocks------------------\n")
     #https://mainnet.veblocks.net
+    #SayNode testnet node : http://3.71.71.72:8669/doc/swagger-ui/
+    #SayNode testnet node : http://3.124.193.149:8669/doc/swagger-ui/
     connector = Connect("https://testnet.veblocks.net")
     print("------------------IMPORT DHN CONTRACT------------------\n")
     _contract = Contract.fromFile("./build/contracts/MyToken.json")
