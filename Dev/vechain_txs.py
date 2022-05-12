@@ -7,6 +7,7 @@ import time
 #Connect to Veblocks and import the DHN contract
 def init():
     print("------------------Connect to Veblocks------------------\n")
+    #https://mainnet.veblocks.net
     connector = Connect("https://testnet.veblocks.net")
     print("------------------IMPORT DHN CONTRACT------------------\n")
     _contract = Contract.fromFile("./build/contracts/MyToken.json")
