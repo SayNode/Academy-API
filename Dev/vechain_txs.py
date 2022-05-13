@@ -9,11 +9,11 @@ def init():
     print("------------------Connect to Veblocks------------------\n")
     #https://mainnet.veblocks.net
     #SayNode testnet node : http://3.71.71.72:8669/doc/swagger-ui/
-    #SayNode testnet node : http://3.124.193.149:8669/doc/swagger-ui/
-    connector = Connect("https://testnet.veblocks.net")
+    #SayNode mainnet node : http://3.124.193.149:8669/doc/swagger-ui/
+    connector = Connect("http://3.71.71.72:8669")
     print("------------------IMPORT DHN CONTRACT------------------\n")
-    _contract = Contract.fromFile("./build/contracts/MyToken.json")
-    DHN_contract_address = '0x299fBe0c9f605d7897694413c774c60892DB631f'
+    _contract = Contract.fromFile("./build/contracts/DHN.json")
+    DHN_contract_address = '0x0867dd816763BB18e3B1838D8a69e366736e87a1'
     return connector, _contract, DHN_contract_address
 
 #Import wallets from mnemonic (this should be only one, but for know we need 2 for testing)
@@ -79,11 +79,11 @@ def main(wallet_id,reward):
     print("------------------DHN Balances Before Transfer------------------\n")
     wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id)
 
-    print("------------------Transfer DHN Tokens------------------\n")
+    """ print("------------------Transfer DHN Tokens------------------\n")
     transfer_DHN(connector, DHN_contract_address, testwallet1, wallet_id, reward)
 
     #Sleep for 10 seconds to allow for the tx to be processed
     time.sleep(10)
 
     print("------------------DHN Balances After Transfer------------------\n")
-    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id)
+    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id) """
