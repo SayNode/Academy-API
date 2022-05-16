@@ -17,4 +17,4 @@ class Form(Resource):
 api.add_resource(Form, "/form/<string:wallet_id>/<string:reward>")
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run()
