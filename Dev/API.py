@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-import re
 import vechain_txs 
 
 app = Flask(__name__)
