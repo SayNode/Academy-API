@@ -1,9 +1,10 @@
+from email.mime import application
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 import vechain_txs 
 
-app = Flask(__name__)
-api = Api(app)
+application = Flask(__name__)
+api = Api(application)
 
 class Form(Resource):
 	
@@ -16,4 +17,4 @@ class Form(Resource):
 api.add_resource(Form, "/form/<string:wallet_id>/<string:reward>")
 
 if __name__ == "__main__":
-	app.run()
+	application.run()
