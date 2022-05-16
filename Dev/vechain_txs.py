@@ -26,15 +26,6 @@ def wallet_import_1(connector):
     print("Wallet VTHO balance: " + str(connector.get_vtho_balance(testWallet1_address)))
     return testwallet1, testWallet1_address
 
-def wallet_import_2(connector):
-    MNEMONIC_2 = config('MNEMONIC_2')
-    testwallet2 = Wallet.fromMnemonic(MNEMONIC_2.split(', '))
-    testWallet2_address= testwallet2.getAddress()
-    print("Wallet address: " + testWallet2_address)
-    print("Wallet VET balance: " + str(connector.get_vet_balance(testWallet2_address)))
-    print("Wallet VTHO balance: " + str(connector.get_vtho_balance(testWallet2_address)))
-    return testwallet2, testWallet2_address
-
 #Get wallet balances, we use "call" in order to not waste any gas (once again this should be separated, but it will be done when ready 
 # to deploy)
 def wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, testWallet2_address):
