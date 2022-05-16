@@ -60,7 +60,8 @@ def transfer_DHN(connector, DHN_contract_address, testwallet1, receiver_address,
 
 
 def main(wallet_id,reward):
-    reward = int(reward)
+    reward = float(reward)
+    reward = int(reward*(10**18))
     print("------------------Connect to Veblocks------------------")
     print("------------------IMPORT DHN CONTRACT------------------\n")
     (connector, _contract, DHN_contract_address)=init()
