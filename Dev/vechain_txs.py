@@ -2,6 +2,9 @@ from thor_requests.connect import Connect
 from thor_requests.wallet import Wallet
 from thor_requests.contract import Contract
 from decouple import config
+import boto3
+import base64
+from botocore.exceptions import ClientError
 import time
 
 #Connect to Veblocks and import the DHN contract
