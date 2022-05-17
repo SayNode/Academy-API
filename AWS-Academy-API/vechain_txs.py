@@ -73,7 +73,7 @@ def main(wallet_id,reward):
 
     print("------------------DHN Balances Before Transfer------------------\n")
     wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id)
-""" 
+
     print("------------------Transfer DHN Tokens------------------\n")
     transfer_DHN(connector, DHN_contract_address, testwallet1, wallet_id, reward)
 
@@ -81,5 +81,4 @@ def main(wallet_id,reward):
     time.sleep(10)
 
     print("------------------DHN Balances After Transfer------------------\n")
-    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id)  """
-main("0x306a430f0e361e96e69d650067eba3f73307b5c4", 0.1)
+    wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id) 
