@@ -1,2 +1,4 @@
 .env
 AWS-Academy-API.zip
+cert.pem
+key.pem

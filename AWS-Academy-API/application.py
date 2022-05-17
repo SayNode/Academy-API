@@ -21,4 +21,5 @@ class Form(Resource):
 api.add_resource(Form, "/form/<string:wallet_id>/<string:reward>")
 
 if __name__ == "__main__":
-	application.run()
+
+	application.run(ssl_context=("cert.pem", "key.pem"))
