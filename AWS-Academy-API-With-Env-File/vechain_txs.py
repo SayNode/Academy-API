@@ -74,11 +74,10 @@ def main(wallet_id,reward):
     print("------------------DHN Balances Before Transfer------------------\n")
     wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id)
 
-    print("------------------Transfer DHN Tokens------------------\n")
-    transfer_DHN(connector, DHN_contract_address, testwallet1, wallet_id, reward)
 
     #Sleep for 10 seconds to allow for the tx to be processed
     time.sleep(10)
 
     print("------------------DHN Balances After Transfer------------------\n")
     wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id) 
+main('0x306A430F0E361e96E69D650067Eba3F73307b5C4',0.001)
