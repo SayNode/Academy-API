@@ -79,8 +79,5 @@ def main(wallet_id,reward):
     print("------------------Transfer DHN Tokens------------------\n")
     transfer_DHN(connector, DHN_contract_address, testwallet1, wallet_id, reward)
 
-    #Sleep for 10 seconds to allow for the tx to be processed
-    time.sleep(10)
-
     print("------------------DHN Balances After Transfer------------------\n")
     wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id) 
