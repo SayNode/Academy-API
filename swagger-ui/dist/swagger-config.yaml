@@ -1,0 +1,72 @@
+swagger: "2.0"
+info:
+  description: "An API to be called whenever a user is to be rewarded a certain DHN amount for completing a task in the Dohrnii Academy."
+  version: "1.0.0"
+  title: "Dohrnii Academy Reward API"
+  contact:
+    email: "joao@saynode.ch"
+host: "academyapi-env.eba-2jsi3i99.eu-central-1.elasticbeanstalk.com"
+basePath: "/"
+tags:
+- name: "form"
+  description: "Form to request the transfer of the reward tokens to a wallet address"
+schemes:
+- "https"
+- "http"
+paths:
+  /form/{wallet_Id}/{reward}/{API_KEY}:
+    get:
+      tags:
+      - "form"
+      summary: "Transfer reward tokens"
+      description: "Returns a message letting you know the transfer was done"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "wallet_Id"
+        in: "path"
+        description: "Wallet address which will be rewarded"
+        required: true
+        type: "string"
+        format: "string"
+      - name: "reward"
+        in: "path"
+        description: "Amount of DHN tokens to be rewarded"
+        required: true
+        type: "string"
+        format: "string"
+      - name: "API_KEY"
+        in: "path"
+        description: "API Key"
+        required: true
+        type: "string"
+        format: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid API Key"
+        "401":
+          description: "Error"
+      security:
+      - api_key: []
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Response:
+    type: "object"
+    properties:
+      shipDate:
+        type: "string"
+    xml:
+      name: "Order"
