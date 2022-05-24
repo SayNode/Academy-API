@@ -13,7 +13,8 @@ api = Api(application)
 @application.route('/')
 def index():
     return 'Unidentified API'
-   
+
+#Execute reward transfer of a certain DHN amount to a wallet address  
 class Form(Resource):
 	
 	def get(self, wallet_id, reward, api_key):
@@ -26,6 +27,7 @@ class Form(Resource):
 				status = "200"
 			   )
 
+#Get balances of two wallets
 class Balances(Resource):
 	def get(self, wallet_id_one, wallet_id_two):
 		(balance_one, balance_two)=vechain_txs.balances(wallet_id_one, wallet_id_two)
