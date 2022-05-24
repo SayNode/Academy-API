@@ -63,6 +63,28 @@ def transfer_DHN(connector, DHN_contract_address, testwallet1, receiver_address,
         amount_in_wei=amount
     ) 
 
+def balances(wallet_id_one, wallet_id_two):
+    print("------------------Connect to Veblocks------------------")
+    print("------------------IMPORT DHN CONTRACT------------------\n")
+    (connector, _contract, DHN_contract_address)=init()
+
+    balance_one = connector.call(
+        caller=wallet_id_one, # fill in your caller address or all zero address
+        contract=_contract,
+        func_name="balanceOf",
+        func_params=[wallet_id_one],
+        to=DHN_contract_address,
+    )
+  
+    balance_two = connector.call(
+        caller=wallet_id_two, # fill in your caller address or all zero address
+        contract=_contract,
+        func_name="balanceOf",
+        func_params=[wallet_id_two],
+        to=DHN_contract_address,
+    )
+    
+    return balance_one["decoded"]["0"], balance_two["decoded"]["0"]
 
 def main(wallet_id,reward):
     reward = float(reward)
@@ -75,9 +97,7 @@ def main(wallet_id,reward):
 
     print("------------------DHN Balances Before Transfer------------------\n")
     wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id)
-
     print("------------------Transfer DHN Tokens------------------\n")
     transfer_DHN(connector, DHN_contract_address, testwallet1, wallet_id, reward)
-
     print("------------------DHN Balances After Transfer------------------\n")
     wallet_balance(connector,_contract, DHN_contract_address, testWallet1_address, wallet_id) 
