@@ -19,7 +19,7 @@ class Form(Resource):
 	def get(self, wallet_id, reward, api_key):
 		PRIVATE_KEY = os.environ['PRIVATE_KEY']
 		if PRIVATE_KEY != api_key:
-			abort(401, message="Wrong API key")
+			abort(403, message="Wrong API key")
 		vechain_txs.main(wallet_id,reward)
 		return jsonify(
 				response_one = reward+" DHN tokens were awarded to the following wallet address: "+ wallet_id,
